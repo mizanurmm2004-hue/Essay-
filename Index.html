@@ -1,669 +1,805 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shohoj Jogajog - Global Industrial Edition</title>
-    
-    <style>
-        /* ==========================================
-           1. MODERN MODERN UI/CSS DESIGN 
-           ========================================== */
-        :root {
-            --primary-color: #007bff;
-            --success-color: #28a745;
-            --danger-color: #dc3545;
-            --warning-color: #ffc107;
-            --dark-bg: #1e293b;
-            --light-bg: #f8fafc;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Callesy — Shohoj Jogajog</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          display: ['"Baloo 2"', 'cursive'],
+          body: ['Nunito', 'sans-serif'],
+        },
+        colors: {
+          brand: {
+            green: '#16a34a',
+            greenLight: '#22c55e',
+            teal: '#0d9488',
+            red: '#dc2626',
+            amber: '#d97706',
+            navy: '#0f172a',
+            slate: '#334155',
+            muted: '#64748b',
+            surface: '#f0fdf4',
+            card: '#ffffff',
+          }
+        },
+        keyframes: {
+          'slide-down': { '0%': { transform: 'translateY(-100%)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+          'fade-in': { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+          'pulse-ring': { '0%': { transform: 'scale(1)', opacity: '0.8' }, '70%': { transform: 'scale(1.15)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '0' } },
+          'wave1': { '0%,100%': { transform: 'scaleY(0.4)' }, '50%': { transform: 'scaleY(1.0)' } },
+          'wave2': { '0%,100%': { transform: 'scaleY(0.8)' }, '50%': { transform: 'scaleY(0.3)' } },
+          'wave3': { '0%,100%': { transform: 'scaleY(0.5)' }, '50%': { transform: 'scaleY(1.2)' } },
+          'wave4': { '0%,100%': { transform: 'scaleY(1.0)' }, '50%': { transform: 'scaleY(0.5)' } },
+          'wave5': { '0%,100%': { transform: 'scaleY(0.6)' }, '50%': { transform: 'scaleY(0.9)' } },
+          'bounce-in': { '0%': { transform: 'scale(0.8)', opacity: '0' }, '70%': { transform: 'scale(1.05)' }, '100%': { transform: 'scale(1)', opacity: '1' } },
+          'shimmer': { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
+        },
+        animation: {
+          'slide-down': 'slide-down 0.4s ease-out',
+          'fade-in': 'fade-in 0.35s ease-out',
+          'pulse-ring': 'pulse-ring 1.4s ease-out infinite',
+          'wave1': 'wave1 0.7s ease-in-out infinite',
+          'wave2': 'wave2 0.7s ease-in-out 0.1s infinite',
+          'wave3': 'wave3 0.7s ease-in-out 0.2s infinite',
+          'wave4': 'wave4 0.7s ease-in-out 0.3s infinite',
+          'wave5': 'wave5 0.7s ease-in-out 0.4s infinite',
+          'bounce-in': 'bounce-in 0.4s ease-out',
+          'shimmer': 'shimmer 2.5s linear infinite',
         }
+      }
+    }
+  }
+</script>
+<style>
+  * { -webkit-tap-highlight-color: transparent; }
+  body { font-family: 'Nunito', sans-serif; background: #f0fdf4; overscroll-behavior: none; }
+  .font-display { font-family: 'Baloo 2', cursive; }
+  .screen { display: none; animation: fadeScreenIn 0.35s ease-out; }
+  .screen.active { display: block; }
+  @keyframes fadeScreenIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--light-bg);
-            color: #334155;
-            text-align: center;
-        }
+  .sos-ring::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 9999px;
+    background: rgba(220,38,38,0.4);
+    animation: pulse-ring 1.4s ease-out infinite;
+  }
 
-        /* Top Animated Notification Bar */
-        .notification-bar {
-            background-color: #ef4444;
-            color: white;
-            padding: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            position: sticky;
-            top: 0;
-            z-index: 2000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            animation: slideDown 0.5s ease-out;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
+  .wave-bar { width: 5px; border-radius: 3px; background: #dc2626; transform-origin: bottom; }
+  .avatar-glow { box-shadow: 0 0 0 4px #16a34a, 0 0 24px rgba(22,163,74,0.35); }
 
-        /* Header Controls */
-        .header-controls {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
+  .btn-shimmer {
+    background: linear-gradient(90deg, #16a34a 0%, #22c55e 40%, #4ade80 50%, #22c55e 60%, #16a34a 100%);
+    background-size: 200% 100%;
+    animation: shimmer 2.5s linear infinite;
+  }
 
-        .lang-select {
-            padding: 8px 12px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: 2px solid #cbd5e1;
-            font-weight: bold;
-            cursor: pointer;
-        }
+  .menu-card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+  .menu-card:active { transform: scale(0.97); }
 
-        .sos-btn {
-            background-color: var(--danger-color);
-            color: white;
-            font-weight: bold;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(220, 53, 69, 0.3);
-        }
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #f1f5f9; }
+  ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
 
-        .container {
-            max-width: 550px;
-            margin: 20px auto;
-            padding: 15px;
-        }
+  select { -webkit-appearance: none; appearance: none; }
 
-        .screen {
-            display: none;
-            background: white;
-            padding: 25px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            min-height: 520px;
-            animation: fadeIn 0.4s ease-in-out;
-        }
+  input[type="file"]::file-selector-button {
+    padding: 8px 16px;
+    background: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+    margin-right: 10px;
+  }
 
-        .screen.active { display: block; }
+  .slider-img-wrap { position: relative; }
+  .slider-img-wrap::after {
+    content: '🎤';
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(13,148,136,0.9);
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    pointer-events: none;
+  }
 
-        /* Buttons Style */
-        .menu-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            width: 100%;
-            background: white;
-            color: #1e293b;
-            font-size: 19px;
-            padding: 20px;
-            margin: 15px 0;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-
-        .menu-btn:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary-color);
-            background-color: #f1f5f9;
-        }
-
-        .add-btn { background-color: var(--success-color) !important; color: white !important; border: none; }
-        .remote-btn { background-color: #6f42c1 !important; color: white !important; border: none; }
-        
-        .back-btn {
-            background-color: #64748b;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            float: left;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* Slider View */
-        .slider-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 25px;
-        }
-
-        .nav-btn {
-            background-color: #334155;
-            color: white;
-            border: none;
-            padding: 20px 18px;
-            font-size: 26px;
-            cursor: pointer;
-            border-radius: 12px;
-        }
-
-        .big-avatar {
-            width: 230px;
-            height: 230px;
-            object-fit: cover;
-            border-radius: 32px;
-            border: 6px solid var(--success-color);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-            cursor: pointer;
-        }
-
-        /* Dedicated Play Voice Mic Button under image */
-        .play-voice-btn {
-            background-color: #17a2b8;
-            color: white;
-            border: none;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            font-size: 22px;
-            margin-top: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(23, 162, 184, 0.3);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .contact-name-label {
-            font-size: 30px;
-            font-weight: 800;
-            margin: 10px 0;
-            color: #0f172a;
-        }
-
-        .call-action-btn {
-            background-color: var(--success-color);
-            color: white;
-            font-size: 24px;
-            padding: 16px 40px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 85%;
-            box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
-        }
-
-        /* Recent list items */
-        .recent-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px;
-            border-bottom: 1px solid #e2e8f0;
-            text-align: left;
-        }
-        .recent-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        /* Forms & Recorders */
-        .recorder-container {
-            background: #f8fafc;
-            border: 2px dashed #cbd5e1;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 20px;
-        }
-
-        .mic-button {
-            background-color: var(--danger-color);
-            color: white;
-            border: none;
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            font-size: 30px;
-            cursor: pointer;
-        }
-
-        .mic-button.recording { animation: pulse 1s infinite; background-color: #990000; }
-
-        .re-record-btn {
-            background: var(--warning-color);
-            color: #0f172a;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 12px;
-            display: none;
-        }
-
-        .about-box {
-            text-align: left;
-            background: #f1f5f9;
-            padding: 20px;
-            border-radius: 16px;
-            max-height: 400px;
-            overflow-y: auto;
-            border-left: 5px solid var(--primary-color);
-        }
-
-        .form-group { margin-bottom: 15px; text-align: left; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 6px; }
-        .form-group input { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; box-sizing: border-box; }
-        .submit-btn { width: 100%; background: var(--success-color); color: white; padding: 16px; font-size: 20px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; }
-
-        .wave-animation {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            gap: 4px;
-            height: 30px;
-            margin: 10px 0;
-        }
-        .wave-bar { width: 4px; height: 10px; background-color: var(--danger-color); border-radius: 2px; }
-        .recording .wave-bar { animation: bounce 0.5s ease-in-out infinite alternate; }
-
-        @keyframes slideDown { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes pulse { 0% { transform: scale(1); } 70% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        @keyframes bounce { 100% { height: 30px; } }
-    </style>
+  .lang-arrow::after {
+    content: '▾';
+    margin-left: 6px;
+    font-size: 13px;
+  }
+</style>
 </head>
-<body>
+<body class="min-h-screen">
 
-    <div class="notification-bar" id="notif-bar">
-        <span>⚠️</span> <div id="notif-text">Alert: Son called 5 mins ago. Call was missed!</div>
+<!-- ALERT BAR -->
+<div id="alert-bar" class="animate-slide-down sticky top-0 z-50 flex items-center justify-between gap-3 px-4 py-3 bg-red-600 text-white shadow-lg">
+  <div class="flex items-center gap-3 flex-1">
+    <i class="fa-solid fa-bell-ring text-xl animate-bounce"></i>
+    <span id="alert-text" class="font-display text-base font-bold leading-tight">⚠️ Alert: Son called 5 mins ago. Call was missed!</span>
+  </div>
+  <button onclick="document.getElementById('alert-bar').style.display='none'" class="shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-red-700 hover:bg-red-800 text-white text-lg font-bold">✕</button>
+</div>
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 flex items-center justify-between px-4 py-3 bg-white border-b border-green-100 shadow-sm">
+  <div class="relative">
+    <select id="lang-picker" onchange="changeLanguage()" class="lang-arrow pl-3 pr-8 py-2 bg-green-50 border-2 border-green-300 rounded-xl font-body font-bold text-green-800 text-sm cursor-pointer focus:outline-none">
+      <option value="en">🌐 English</option>
+      <option value="bn">🌐 বাংলা</option>
+      <option value="ms">🌐 Melayu</option>
+      <option value="hi">🌐 हिन्दी</option>
+    </select>
+  </div>
+  <h1 id="app-logo" class="font-display text-xl font-extrabold text-green-700 tracking-tight">Callesy</h1>
+  <div class="relative">
+    <div class="sos-ring relative">
+      <button onclick="triggerSOS()" class="relative z-10 flex items-center gap-2 bg-red-600 hover:bg-red-700 active:scale-95 text-white font-display font-bold text-base px-4 py-2 rounded-full shadow-lg transition-transform">
+        <i class="fa-solid fa-siren-on"></i>
+        <span id="sos-label">SOS</span>
+      </button>
     </div>
+  </div>
+</header>
 
-    <div class="header-controls">
-        <select class="lang-select" id="lang-picker" onchange="changeLanguage()">
-            <option value="en">🌐 English (Global)</option>
-            <option value="bn">🌐 বাংলা (Bangladesh)</option>
-            <option value="ms">🌐 Bahasa Melayu (Malaysia)</option>
-            <option value="hi">🌐 हिन्दी (India)</option>
-        </select>
-        <button class="sos-btn" id="sos-main-btn" onclick="triggerSOS()">🚨 SOS</button>
+<!-- MAIN -->
+<main class="max-w-lg mx-auto px-4 pb-10 pt-5">
+
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="screen active">
+    <div class="text-center mb-6">
+      <h2 id="app-title" class="font-display text-3xl font-extrabold text-green-800">Shohoj Jogajog</h2>
+      <p id="app-subtitle" class="text-slate-500 font-semibold text-sm mt-1">Simple Calling for Every Family</p>
     </div>
+    <div class="space-y-4">
 
-    <div class="container">
-        
-        <div id="dashboard" class="screen active">
-            <h2 id="app-title">Shohoj Jogajog</h2>
-            <button class="menu-btn" onclick="showScreen('recent-screen')">📞 <span id="lbl-recent-calls">Recent Calls (Who called)</span></button>
-            <button class="menu-btn" onclick="showScreen('contacts-screen')">👥 <span id="lbl-all-contacts">All Numbers (Click Photo)</span></button>
-            <button class="menu-btn add-btn" onclick="openSaveScreen('local')">➕ <span id="lbl-manual-save">Save Number Myself</span></button>
-            <button class="menu-btn remote-btn" onclick="openSaveScreen('remote')">☁️ <span id="lbl-remote-save">Remote Cloud Save (By Children)</span></button>
-            <button class="menu-btn" style="border-color: var(--primary-color);" onclick="showScreen('about-screen')">ℹ️ <span id="lbl-about-app">About This Project</span></button>
+      <button onclick="showScreen('recent-screen')" class="menu-card w-full flex items-center gap-5 bg-white rounded-2xl border-2 border-slate-100 shadow-md px-5 py-4 hover:border-green-400 hover:shadow-green-100 hover:shadow-lg">
+        <div class="w-14 h-14 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-clock-rotate-left text-3xl text-blue-500"></i>
         </div>
-
-        <div id="recent-screen" class="screen">
-            <button class="back-btn" onclick="showScreen('dashboard')">⬅️</button>
-            <br><br>
-            <h3 id="lbl-recent-heading">Recent Call History</h3>
-            <div id="recent-list"></div>
+        <div class="text-left">
+          <p id="lbl-recent-calls" class="font-display font-bold text-lg text-slate-800">Recent Calls</p>
+          <p id="lbl-recent-sub" class="text-slate-400 text-sm font-semibold">Who called you recently</p>
         </div>
+        <i class="fa-solid fa-chevron-right text-slate-300 ml-auto"></i>
+      </button>
 
-        <div id="contacts-screen" class="screen">
-            <button class="back-btn" onclick="showScreen('dashboard')">⬅️</button>
-            <br><br>
-            <div class="slider-container">
-                <button class="nav-btn" onclick="changeContact(-1)">◀</button>
-                <div id="contact-card"></div>
-                <button class="nav-btn" onclick="changeContact(1)">▶</button>
-            </div>
-            <p id="lbl-voice-tip" style="color:#64748b; font-size:14px; margin-top:15px;">💡 Tap the image or the Mic button below to hear their real voice.</p>
+      <button onclick="showScreen('contacts-screen')" class="menu-card w-full flex items-center gap-5 bg-white rounded-2xl border-2 border-slate-100 shadow-md px-5 py-4 hover:border-teal-400 hover:shadow-teal-100 hover:shadow-lg">
+        <div class="w-14 h-14 rounded-xl bg-teal-50 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-address-card text-3xl text-teal-500"></i>
         </div>
-
-        <div id="add-screen" class="screen">
-            <button class="back-btn" onclick="showScreen('dashboard')">⬅️</button>
-            <br><br>
-            <h3 id="lbl-form-title">Add New Contact Panel</h3>
-            <p id="save-mode-desc" style="color:#6f42c1; font-weight:bold; font-size:14px; text-align:left;"></p>
-            
-            <form id="contact-form" onsubmit="saveContact(event)">
-                <div class="form-group" id="cloud-id-group" style="display:none; background:#f3e8ff; padding:12px; border-radius:12px; border:1px solid #d8b4fe;">
-                    <label id="lbl-cloud-phone" style="color:#6b21a8;">🔑 Enter Parent's Cloud Code / Phone Number:</label>
-                    <input type="tel" id="cloud-father-id" placeholder="e.g., 01711XXXXXX">
-                </div>
-
-                <div class="form-group">
-                    <label id="lbl-select-img">Select Photo:</label>
-                    <input type="file" id="contact-image" accept="image/*" required>
-                </div>
-                <div class="form-group">
-                    <label id="lbl-enter-name">Relation Name:</label>
-                    <input type="text" id="contact-name" placeholder="e.g., Elder Son" required>
-                </div>
-                <div class="form-group">
-                    <label id="lbl-enter-phone">Phone Number:</label>
-                    <input type="tel" id="contact-phone" placeholder="e.g., 017XXXXXXXX" required>
-                </div>
-
-                <div class="recorder-container">
-                    <label id="lbl-record-instruction" style="font-weight:bold; display:block; margin-bottom:10px;">Record Voice Tag (10 Sec Auto-Stop):</label>
-                    <button type="button" id="mic-btn" class="mic-button" onclick="startRecording()">🎤</button>
-                    
-                    <div id="wave" class="wave-animation">
-                        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
-                    </div>
-                    
-                    <div id="timer" style="margin-top:5px; font-weight:bold; color:var(--danger-color);"></div>
-                    <button type="button" id="re-record-btn" class="re-record-btn" onclick="deleteAndReRecord()">🔄 Mistake? Delete & Re-Record Instantly</button>
-                </div>
-
-                <button type="submit" class="submit-btn" id="lbl-save-btn">💾 Save Contact</button>
-            </form>
+        <div class="text-left">
+          <p id="lbl-all-contacts" class="font-display font-bold text-lg text-slate-800">All Numbers</p>
+          <p id="lbl-contacts-sub" class="text-slate-400 text-sm font-semibold">Tap a photo and call instantly</p>
         </div>
+        <i class="fa-solid fa-chevron-right text-slate-300 ml-auto"></i>
+      </button>
 
-        <div id="about-screen" class="screen">
-            <button class="back-btn" onclick="showScreen('dashboard')">⬅️</button>
-            <br><br>
-            <h3 id="lbl-about-heading">Project Background & Goals</h3>
-            
-            <div class="about-box">
-                <h4>🔴 The Problems We Observed</h4>
-                <p><strong>1. Saving & Finding Numbers:</strong> Elderly or uneducated people cannot type or search names in a smartphone. They cannot even save a contact by themselves because technology is too complex for them.</p>
-                <p><strong>2. Emergency Failures:</strong> When a parent calls their son 3-4 times during a medical emergency, the son might be busy at work and miss the call. The parent gets helpless and doesn't know who to call next.</p>
-                <p><strong>3. Out of Balance:</strong> When the phone mobile balance finishes, old people get completely disconnected from their family with no way to inform them.</p>
-
-                <h4>🟢 Our Smart Solutions</h4>
-                <p><strong>1. Remote Contact Management:</strong> The elderly person doesn't need to do anything. Their children can securely log in from their own phones (even from abroad) and remotely save numbers, add photos, and set up voice tags on the parent's phone.</p>
-                <p><strong>2. Multi-Level Smart Emergency Routing:</strong> If a parent calls a primary contact (like their son) 3 or 4 times and it is not answered, our system auto-detects the emergency. It automatically diverts the next call attempt to a backup number, like a trusted neighbor or nearby relative.</p>
-                <p><strong>3. Voice Label System:</strong> When the user taps a photo, it plays the real recorded voice tag (e.g., "This is your doctor"). No reading required! Children can also use full voice control to trigger video calls or messages.</p>
-                <p><strong>4. Low Balance Auto-SMS & Pre-installs:</strong> If the phone runs out of money, the app triggers an optional offline automatic text message to the guardian. Local emergency numbers (Police, Ambulance) are pre-installed based on location.</p>
-            </div>
+      <button onclick="openSaveScreen('local')" class="menu-card w-full flex items-center gap-5 bg-gradient-to-r from-green-600 to-green-500 rounded-2xl shadow-md shadow-green-200 px-5 py-4 hover:shadow-green-300 hover:shadow-xl">
+        <div class="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-plus text-3xl text-white"></i>
         </div>
+        <div class="text-left">
+          <p id="lbl-manual-save" class="font-display font-bold text-lg text-white">Save Number Myself</p>
+          <p id="lbl-manual-sub" class="text-green-100 text-sm font-semibold">Add a new contact on this phone</p>
+        </div>
+        <i class="fa-solid fa-chevron-right text-white/50 ml-auto"></i>
+      </button>
+
+      <button onclick="openSaveScreen('remote')" class="menu-card w-full flex items-center gap-5 bg-gradient-to-r from-violet-600 to-violet-500 rounded-2xl shadow-md shadow-violet-200 px-5 py-4 hover:shadow-violet-300 hover:shadow-xl">
+        <div class="w-14 h-14 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-cloud-arrow-up text-3xl text-white"></i>
+        </div>
+        <div class="text-left">
+          <p id="lbl-remote-save" class="font-display font-bold text-lg text-white">Remote Cloud Save</p>
+          <p id="lbl-remote-sub" class="text-violet-100 text-sm font-semibold">Children save from anywhere</p>
+        </div>
+        <i class="fa-solid fa-chevron-right text-white/50 ml-auto"></i>
+      </button>
+
+      <button onclick="showScreen('about-screen')" class="menu-card w-full flex items-center gap-5 bg-white rounded-2xl border-2 border-slate-100 shadow-md px-5 py-4 hover:border-amber-400 hover:shadow-amber-100 hover:shadow-lg">
+        <div class="w-14 h-14 rounded-xl bg-amber-50 flex items-center justify-center shrink-0">
+          <i class="fa-solid fa-circle-info text-3xl text-amber-500"></i>
+        </div>
+        <div class="text-left">
+          <p id="lbl-about" class="font-display font-bold text-lg text-slate-800">About This Project</p>
+          <p id="lbl-about-sub" class="text-slate-400 text-sm font-semibold">Goals, problems & solutions</p>
+        </div>
+        <i class="fa-solid fa-chevron-right text-slate-300 ml-auto"></i>
+      </button>
 
     </div>
+  </div>
 
-    <script>
-        const langData = {
-            en: {
-                title: "Shohoj Jogajog", recentCalls: "Recent Calls (Who called)", allContacts: "All Numbers (Click Photo)",
-                manualSave: "Save Number Myself", remoteSave: "Remote Cloud Save (By Children)", aboutApp: "About This Project",
-                voiceTip: "💡 Tap the image or the Mic button below to hear their real voice.", formTitle: "Add New Contact Panel",
-                selectImg: "Select Photo:", enterName: "Relation Name:", enterPhone: "Phone Number:", recordInst: "Record Voice Tag (10 Sec Auto-Stop):",
-                saveBtn: "💾 Save Contact", notifText: "Alert: Son called 5 mins ago. Call was missed!", aboutHeading: "Project Background & Goals", recentHeading: "Recent Call History",
-                cloudPhoneLabel: "🔑 Enter Parent's Cloud Code / Phone Number:"
-            },
-            bn: {
-                title: "সহজ যোগাযোগ", recentCalls: "রিসেন্ট কল (কারা ফোন করেছে)", allContacts: "সব নাম্বার (ছবি দেখে কল)",
-                manualSave: "আমি নিজে নাম্বার সেভ করব", remoteSave: "রিমোট ক্লাউড সেভ (সন্তান করবে)", aboutApp: "প্রজেক্টের মূল উদ্দেশ্য",
-                voiceTip: "💡 গলার আওয়াজ শুনতে ছবির ওপর অথবা নিচের মাইক বাটনে চাপ দিন।", formTitle: "নতুন কন্টাক্ট প্যানেল",
-                selectImg: "ছবি সিলেক্ট করুন:", enterName: "সম্পর্ক / নাম:", enterPhone: "ফোন নাম্বার:", recordInst: "গলার আওয়াজ রেকর্ড (১০ সেকেন্ড অটো-স্টপ):",
-                saveBtn: "💾 কন্টাক্ট সেভ করুন", notifText: "সতর্কতা: বড় ছেলে ৫ মিনিট আগে ফোন করেছিল। ধরা হয়নি!", aboutHeading: "প্রজেক্টের পটভূমি ও লক্ষ্য", recentHeading: "রিসেন্ট কল হিস্ট্রি",
-                cloudPhoneLabel: "🔑 বাবার ক্লাউড নম্বর / ফোন নম্বরটি লিখুন:"
-            },
-            ms: {
-                title: "Shohoj Jogajog", recentCalls: "Panggilan Terkini", allContacts: "Semua Nombor (Klik Foto)",
-                manualSave: "Simpan Sendiri", remoteSave: "Simpanan Awan Jauh (Oleh Anak)", aboutApp: "Mengenai Projek Ini",
-                voiceTip: "💡 Ketik imej atau butang Mikrofon di bawah untuk mendengar suara.", formTitle: "Panel Tambah Hubungan Baru",
-                selectImg: "Pilih Foto:", enterName: "Hubungan / Nama:", enterPhone: "Nombor Telefon:", recordInst: "Rakam Label Suara (Auto-Henti 10 Saat):",
-                saveBtn: "💾 Simpan Hubungan", notifText: "Amaran: Anak menelefon 5 minit lepas. Panggilan terlepas!", aboutHeading: "Latar Belakang Projek & Matlamat", recentHeading: "Sejarah Panggilan Terkini",
-                cloudPhoneLabel: "🔑 Masukkan Kod Awan / Nombor Telefon Ibu Bapa:"
-            },
-            hi: {
-                title: "सहज जोगाजोग", recentCalls: "हाल ही की कॉल", allContacts: "सभी नंबर (फोटो पर क्लिक करें)",
-                manualSave: "खुद नंबर सेव करें", remoteSave: "रिमोट क्लाउड सेव (बच्चों द्वारा)", aboutApp: "इस प्रोजेक्ट के बारे में",
-                voiceTip: "💡 असली आवाज़ सुनने के लिए फ़ोटो या नीचे दिए गए माइक बटन पर टैप करें।", formTitle: "नया कन्टैक्ट पैनल",
-                selectImg: "फोटो चुनें:", enterName: "रिश्ता / नाम:", enterPhone: "फ़ोन नंबर:", recordInst: "आवाज़ रिकॉर्ड करें (10 सेकंड ऑटो-स्टॉप):",
-                saveBtn: "💾 कन्टैक्ट सेव करें", notifText: "चेतावनी: बेटे का 5 मिनट पहले कॉल आया था। मिस्ड कॉल!", aboutHeading: "प्रोजेक्ट की पृष्ठभूमि और लक्ष्य", recentHeading: "कॉल का इतिहास",
-                cloudPhoneLabel: "🔑 माता-पिता का क्लाउड कोड / फ़ोन नंबर दर्ज करें:"
-            }
-        };
+  <!-- RECENT CALLS -->
+  <div id="recent-screen" class="screen">
+    <div class="flex items-center gap-3 mb-6">
+      <button onclick="showScreen('dashboard')" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <h2 id="lbl-recent-heading" class="font-display text-2xl font-extrabold text-slate-800">Recent Call History</h2>
+    </div>
+    <div id="recent-list" class="space-y-3"></div>
+  </div>
 
-        const defaultContacts = [
-            { name: "Emergency: Ambulance", phone: "999", img: "https://images.unsplash.com/photo-1587740896339-96a76170508d?w=200", audio: "", callCount: 0 },
-            { name: "Emergency: Police", phone: "100", img: "https://images.unsplash.com/photo-1590041794748-2d8eb73a571c?w=200", audio: "", callCount: 0 }
-        ];
+  <!-- CONTACTS SLIDER -->
+  <div id="contacts-screen" class="screen">
+    <div class="flex items-center gap-3 mb-5">
+      <button onclick="showScreen('dashboard')" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <h2 id="lbl-contacts-heading" class="font-display text-2xl font-extrabold text-slate-800">All Numbers</h2>
+    </div>
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-5">
+      <div class="flex items-center gap-3">
+        <button onclick="changeContact(-1)" class="shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-slate-700 hover:bg-slate-800 active:scale-95 text-white text-xl shadow transition-all">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <div class="flex-1 flex flex-col items-center" id="contact-card"></div>
+        <button onclick="changeContact(1)" class="shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-slate-700 hover:bg-slate-800 active:scale-95 text-white text-xl shadow transition-all">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+      <div id="contact-dots" class="flex justify-center gap-2 mt-4"></div>
+      <p id="lbl-voice-tip" class="text-center text-slate-400 text-sm font-semibold mt-3">
+        <i class="fa-solid fa-hand-pointer text-teal-400"></i> Tap photo or <i class="fa-solid fa-microphone text-teal-400"></i> to hear their voice
+      </p>
+    </div>
+  </div>
 
-        let contacts = JSON.parse(localStorage.getItem('global_contacts')) || defaultContacts;
-        let recents = JSON.parse(localStorage.getItem('recents_history')) || [];
-        
-        let currentIndex = 0;
-        let mediaRecorder;
-        let audioChunks = [];
-        let recordTimer;
-        let recordedAudioUrl = "";
-        let audioStream = null;
-        let currentSaveMode = "local"; 
+  <!-- SAVE / ADD CONTACT -->
+  <div id="add-screen" class="screen">
+    <div class="flex items-center gap-3 mb-5">
+      <button onclick="showScreen('dashboard')" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <h2 id="lbl-form-title" class="font-display text-2xl font-extrabold text-slate-800">Add New Contact</h2>
+    </div>
 
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-            if (screenId === 'contacts-screen') renderContactCard();
-            if (screenId === 'recent-screen') renderRecents();
-        }
+    <div id="mode-badge" class="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold mb-5"></div>
 
-        // IMPROVED: Open save screen and handle Remote vs Local inputs dynamically
-        function openSaveScreen(mode) {
-            currentSaveMode = mode;
-            const desc = document.getElementById('save-mode-desc');
-            const cloudGroup = document.getElementById('cloud-id-group');
-            const cloudInput = document.getElementById('cloud-father-id');
-            const selectedLang = document.getElementById('lang-picker').value;
+    <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-5 space-y-5">
 
-            if(mode === 'remote') {
-                if(selectedLang === 'bn') {
-                    desc.innerText = "☁️ রিমোট ক্লাউড মোড: সন্তান ঢাকা/বিদেশ থেকে বাবার ফোন নম্বর দিয়ে রিমোটলি ডাটাবেজে সেভ করছে।";
-                } else {
-                    desc.innerText = "☁️ Remote Cloud Mode: Simulating Son saving remotely from Dhaka/Abroad via cloud ID.";
-                }
-                cloudGroup.style.display = "block";
-                cloudInput.required = true;
-            } else {
-                if(selectedLang === 'bn') {
-                    desc.innerText = "📱 ম্যানুয়াল মোড: এই ফোনের নিজস্ব হার্ডওয়্যারে সরাসরি নাম্বার সেভ করা হচ্ছে।";
-                } else {
-                    desc.innerText = "📱 Manual Mode: Saving natively on this phone hardware.";
-                }
-                cloudGroup.style.display = "none";
-                cloudInput.required = false;
-                cloudInput.value = "";
-            }
-            showScreen('add-screen');
-        }
+      <div id="cloud-id-group" class="hidden bg-violet-50 border-2 border-violet-200 rounded-2xl p-4">
+        <label id="lbl-cloud-phone" class="block font-display font-bold text-violet-800 mb-2 text-base">
+          <i class="fa-solid fa-key text-violet-500 mr-1"></i> Parent's Cloud Code / Phone Number
+        </label>
+        <input type="tel" id="cloud-father-id" placeholder="e.g., 01711XXXXXX"
+          class="w-full px-4 py-3 border-2 border-violet-300 rounded-xl font-body font-bold text-lg focus:outline-none focus:border-violet-500 bg-white">
+      </div>
 
-        function changeLanguage() {
-            const selectedLang = document.getElementById('lang-picker').value;
-            const data = langData[selectedLang];
+      <div>
+        <label id="lbl-select-img" class="block font-display font-bold text-slate-700 mb-2 text-base">
+          <i class="fa-solid fa-image text-green-500 mr-1"></i> Select Photo
+        </label>
+        <input type="file" id="contact-image" accept="image/*"
+          class="w-full px-3 py-3 border-2 border-dashed border-slate-300 rounded-xl font-body text-slate-500 bg-slate-50 focus:outline-none cursor-pointer">
+        <div id="img-preview" class="hidden mt-3 flex justify-center">
+          <img id="img-preview-tag" class="w-24 h-24 rounded-2xl object-cover border-4 border-green-400 shadow-md">
+        </div>
+      </div>
 
-            document.getElementById('app-title').innerText = data.title;
-            document.getElementById('lbl-recent-calls').innerText = data.recentCalls;
-            document.getElementById('lbl-all-contacts').innerText = data.allContacts;
-            document.getElementById('lbl-manual-save').innerText = data.manualSave;
-            document.getElementById('lbl-remote-save').innerText = data.remoteSave;
-            document.getElementById('lbl-about-app').innerText = data.aboutApp;
-            document.getElementById('lbl-voice-tip').innerText = data.voiceTip;
-            document.getElementById('lbl-form-title').innerText = data.formTitle;
-            document.getElementById('lbl-select-img').innerText = data.selectImg;
-            document.getElementById('lbl-enter-name').innerText = data.enterName;
-            document.getElementById('lbl-enter-phone').innerText = data.enterPhone;
-            document.getElementById('lbl-record-instruction').innerText = data.recordInst;
-            document.getElementById('lbl-save-btn').innerText = data.saveBtn;
-            document.getElementById('notif-text').innerText = data.notifText;
-            document.getElementById('lbl-about-heading').innerText = data.aboutHeading;
-            document.getElementById('lbl-recent-heading').innerText = data.recentHeading;
-            document.getElementById('lbl-cloud-phone').innerText = data.cloudPhoneLabel;
-        }
+      <div>
+        <label id="lbl-enter-name" class="block font-display font-bold text-slate-700 mb-2 text-base">
+          <i class="fa-solid fa-user text-blue-400 mr-1"></i> Relation Name
+        </label>
+        <input type="text" id="contact-name" placeholder="e.g., Elder Son"
+          class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl font-body font-bold text-lg focus:outline-none focus:border-green-400 transition-colors">
+      </div>
 
-        // Voice Recording Engine
-        async function startRecording() {
-            if (mediaRecorder && mediaRecorder.state === "recording") return;
-            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                try {
-                    audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    mediaRecorder = new MediaRecorder(audioStream);
-                    audioChunks = [];
+      <div>
+        <label id="lbl-enter-phone" class="block font-display font-bold text-slate-700 mb-2 text-base">
+          <i class="fa-solid fa-phone text-green-500 mr-1"></i> Phone Number
+        </label>
+        <input type="tel" id="contact-phone" placeholder="e.g., 017XXXXXXXX"
+          class="w-full px-4 py-3 border-2 border-slate-200 rounded-xl font-body font-bold text-xl focus:outline-none focus:border-green-400 transition-colors tracking-widest">
+      </div>
 
-                    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-                    mediaRecorder.onstop = () => {
-                        const audioBlob = new Blob(audioChunks, { type: 'audio/mp3' });
-                        const reader = new FileReader();
-                        reader.onloadend = function() {
-                            recordedAudioUrl = reader.result;
-                            document.getElementById('re-record-btn').style.display = "inline-block";
-                        }
-                        reader.readAsDataURL(audioBlob);
-                        
-                        document.getElementById('mic-btn').classList.remove('recording');
-                        document.getElementById('wave').style.display = "none";
-                        document.getElementById('timer').innerText = "Voice Recorded successfully!";
-                        if (audioStream) audioStream.getTracks().forEach(t => t.stop());
-                    };
+      <!-- Voice Recorder -->
+      <div class="bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl p-5">
+        <p id="lbl-record-instruction" class="font-display font-bold text-slate-700 text-base mb-4">
+          <i class="fa-solid fa-waveform-lines text-red-500 mr-1"></i> Record Voice Tag (10 sec auto-stop)
+        </p>
+        <div class="flex flex-col items-center gap-3">
+          <div class="relative">
+            <div id="mic-pulse-ring" class="hidden absolute inset-0 rounded-full bg-red-400/40 animate-pulse-ring"></div>
+            <button id="mic-btn" onclick="startRecording()" type="button"
+              class="relative z-10 w-20 h-20 rounded-full bg-red-600 hover:bg-red-700 active:scale-95 text-white text-4xl flex items-center justify-center shadow-lg shadow-red-200 transition-all">
+              <i class="fa-solid fa-microphone"></i>
+            </button>
+          </div>
+          <div id="wave-anim" class="hidden items-center gap-1 h-10">
+            <div class="wave-bar h-3 animate-wave1"></div>
+            <div class="wave-bar h-3 animate-wave2"></div>
+            <div class="wave-bar h-3 animate-wave3"></div>
+            <div class="wave-bar h-3 animate-wave4"></div>
+            <div class="wave-bar h-3 animate-wave5"></div>
+            <div class="wave-bar h-3 animate-wave1"></div>
+            <div class="wave-bar h-3 animate-wave2"></div>
+            <div class="wave-bar h-3 animate-wave3"></div>
+          </div>
+          <div id="rec-timer" class="font-display font-bold text-red-600 text-lg"></div>
+          <div id="rec-status" class="text-slate-500 text-sm font-semibold"></div>
+          <button id="re-record-btn" type="button" onclick="deleteAndReRecord()"
+            class="hidden items-center gap-2 px-4 py-2 bg-amber-400 hover:bg-amber-500 active:scale-95 text-amber-900 font-display font-bold rounded-xl text-sm shadow transition-all">
+            <i class="fa-solid fa-rotate-left"></i> <span id="lbl-rerecord">Mistake? Delete & Re-Record</span>
+          </button>
+        </div>
+      </div>
 
-                    mediaRecorder.start();
-                    document.getElementById('mic-btn').classList.add('recording');
-                    document.getElementById('wave').style.display = "flex";
-                    document.getElementById('re-record-btn').style.display = "none";
-                    
-                    let timeLeft = 10;
-                    document.getElementById('timer').innerText = `Remaining: ${timeLeft}s`;
-                    
-                    clearInterval(recordTimer);
-                    recordTimer = setInterval(() => {
-                        timeLeft--;
-                        if(timeLeft <= 0) {
-                            clearInterval(recordTimer);
-                            if (mediaRecorder.state === "recording") mediaRecorder.stop();
-                        } else {
-                            document.getElementById('timer').innerText = `Remaining: ${timeLeft}s`;
-                        }
-                    }, 1000);
-                } catch (err) {
-                    alert("Microphone Access Blocked! Please check background apps overlay or permission.");
-                }
-            }
-        }
+      <button type="button" onclick="saveContact()" id="save-btn"
+        class="btn-shimmer w-full py-4 rounded-2xl text-white font-display font-extrabold text-xl shadow-lg shadow-green-200 active:scale-95 transition-transform">
+        <i class="fa-solid fa-floppy-disk mr-2"></i> <span id="lbl-save-btn">Save Contact</span>
+      </button>
 
-        function deleteAndReRecord() {
-            recordedAudioUrl = "";
-            clearInterval(recordTimer);
-            if (mediaRecorder && mediaRecorder.state === "recording") mediaRecorder.stop();
-            document.getElementById('timer').innerText = "Erased! listening new voice...";
-            setTimeout(() => { startRecording(); }, 600);
-        }
+    </div>
+  </div>
 
-        // IMPROVED: Consolidated Cloud and Local submission 
-        function saveContact(e) {
-            e.preventDefault();
-            const name = document.getElementById('contact-name').value;
-            const phone = document.getElementById('contact-phone').value;
-            const imageFile = document.getElementById('contact-image').files[0];
-            const cloudId = document.getElementById('cloud-father-id').value;
-            const selectedLang = document.getElementById('lang-picker').value;
+  <!-- ABOUT SCREEN -->
+  <div id="about-screen" class="screen">
+    <div class="flex items-center gap-3 mb-5">
+      <button onclick="showScreen('dashboard')" class="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <h2 id="lbl-about-heading" class="font-display text-2xl font-extrabold text-slate-800">About This Project</h2>
+    </div>
+    <div class="space-y-4">
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-md p-5">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center"><i class="fa-solid fa-triangle-exclamation text-red-500 text-xl"></i></div>
+          <h3 class="font-display font-extrabold text-lg text-slate-800">Problems We Observed</h3>
+        </div>
+        <div class="space-y-3 text-slate-600 text-sm font-semibold leading-relaxed">
+          <p><span class="text-red-500 font-bold">1. Finding Numbers:</span> Elderly or uneducated parents can't type or search names on a smartphone. Saving a contact is too complex for them.</p>
+          <p><span class="text-red-500 font-bold">2. Emergency Failures:</span> A parent calls their child 3–4 times in a medical crisis. The child is busy and misses every call. The parent is left helpless.</p>
+          <p><span class="text-red-500 font-bold">3. Out of Balance:</span> When mobile credit runs out, elderly people get completely disconnected from family with no way to inform anyone.</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-md p-5">
+        <div class="flex items-center gap-3 mb-3">
+          <div class="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center"><i class="fa-solid fa-lightbulb text-green-500 text-xl"></i></div>
+          <h3 class="font-display font-extrabold text-lg text-slate-800">Our Smart Solutions</h3>
+        </div>
+        <div class="space-y-3 text-slate-600 text-sm font-semibold leading-relaxed">
+          <p><span class="text-green-600 font-bold">1. Remote Contact Management:</span> The parent doesn't need to do a thing. Children log in from anywhere in the world and remotely save numbers, photos, and voice tags on the parent's phone.</p>
+          <p><span class="text-green-600 font-bold">2. Smart Emergency Routing:</span> If a parent calls a contact 3+ times without an answer, the system auto-detects the emergency and redirects to a trusted backup number.</p>
+          <p><span class="text-green-600 font-bold">3. Voice Label System:</span> Tapping a photo plays a real recorded voice tag. Zero reading required.</p>
+          <p><span class="text-green-600 font-bold">4. Low-Balance Auto-SMS:</span> When credit runs out, the app sends an automatic SMS to the guardian. Local emergency numbers are pre-installed based on location.</p>
+        </div>
+      </div>
+      <div class="bg-gradient-to-r from-green-600 to-teal-600 rounded-2xl p-5 text-white">
+        <h3 class="font-display font-extrabold text-lg mb-2"><i class="fa-solid fa-earth-asia mr-2"></i>Global Vision</h3>
+        <p class="text-green-100 text-sm font-semibold leading-relaxed">Callesy is designed for Bangladesh, Malaysia, India, and every developing nation where millions of elderly, uneducated, or digitally excluded family members deserve to stay connected — simply, safely, and with dignity.</p>
+      </div>
+    </div>
+  </div>
 
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const newContact = { name, phone, img: event.target.result, audio: recordedAudioUrl, callCount: 0 };
-                contacts.push(newContact);
-                localStorage.setItem('global_contacts', JSON.stringify(contacts));
-                
-                if(currentSaveMode === 'remote') {
-                    if(selectedLang === 'bn') {
-                        alert(`☁️ ক্লাউড কানেকশন সফল! বাবার নম্বর (${cloudId})-এ নতুন কন্টাক্ট '${name}' সফলভাবে পাঠানো হয়েছে!`);
-                    } else {
-                        alert(`☁️ Cloud connection successful! Pushed new contact '${name}' successfully to Parent's Device (${cloudId})!`);
-                    }
-                } else {
-                    if(selectedLang === 'bn') {
-                        alert("📱 কন্টাক্টটি সফলভাবে এই ফোনের মেমোরিতে সেভ হয়েছে!");
-                    } else {
-                        alert("📱 Contact saved locally on phone hardware successfully!");
-                    }
-                }
-                
-                document.getElementById('contact-form').reset();
-                recordedAudioUrl = "";
-                document.getElementById('re-record-btn').style.display = "none";
-                document.getElementById('timer').innerText = "";
-                showScreen('dashboard');
-            };
-            if (imageFile) reader.readAsDataURL(imageFile);
-        }
+</main>
 
-        // Render Slider with Dedicated Voice Button
-        function renderContactCard() {
-            const container = document.getElementById('contact-card');
-            if (contacts.length === 0) {
-                container.innerHTML = "<p>No numbers saved yet.</p>";
-                return;
-            }
-            const c = contacts[currentIndex];
-            container.innerHTML = `
-                <img src="${c.img}" class="big-avatar" onclick="playVoice('${c.audio}')">
-                <br>
-                <button class="play-voice-btn" onclick="playVoice('${c.audio}')">🎤</button>
-                <div class="contact-name-label">${c.name}</div>
-                <button class="call-action-btn" onclick="makeCall(${currentIndex})">📞 CALL NOW</button>
-            `;
-            playVoice(c.audio);
-        }
+<script>
+const langData = {
+  en: {
+    appTitle: "Shohoj Jogajog", appSubtitle: "Simple Calling for Every Family",
+    recentCalls: "Recent Calls", recentSub: "Who called you recently",
+    allContacts: "All Numbers", contactsSub: "Tap a photo and call instantly",
+    manualSave: "Save Number Myself", manualSub: "Add a new contact on this phone",
+    remoteSave: "Remote Cloud Save", remoteSub: "Children save from anywhere",
+    aboutApp: "About This Project", aboutSub: "Goals, problems & solutions",
+    recentHeading: "Recent Call History", contactsHeading: "All Numbers",
+    voiceTip: "Tap photo or 🎤 to hear their voice", formTitle: "Add New Contact",
+    modeBadgeLocal: "📱 Manual Mode — Saving on this phone",
+    modeBadgeRemote: "☁️ Remote Cloud Mode — Child saving for parent",
+    cloudPhone: "Parent's Cloud Code / Phone Number",
+    selectImg: "Select Photo", enterName: "Relation Name", enterPhone: "Phone Number",
+    recordInst: "Record Voice Tag (10 sec auto-stop)",
+    rerecord: "Mistake? Delete & Re-Record", saveBtn: "Save Contact",
+    aboutHeading: "About This Project",
+    alertText: "⚠️ Alert: Son called 5 mins ago. Call was missed!",
+    sosLabel: "SOS", noRecent: "No recent calls yet.", noContacts: "No contacts saved yet.",
+    callNow: "CALL NOW", voiceRecorded: "✅ Voice recorded successfully!",
+    tapToRecord: "Tap the mic to record a voice tag", remaining: "Remaining",
+    localSaved: "Contact saved on this phone!", cloudSaved: "Contact pushed to parent's phone via cloud!",
+    emergencyReroute: "🚨 Emergency! No answer after 3 tries. Calling backup contact now...",
+  },
+  bn: {
+    appTitle: "সহজ যোগাযোগ", appSubtitle: "পরিবারের সাথে সহজ সংযোগ",
+    recentCalls: "রিসেন্ট কল", recentSub: "কারা সম্প্রতি ফোন করেছে",
+    allContacts: "সব নাম্বার", contactsSub: "ছবিতে ট্যাপ করে কল করুন",
+    manualSave: "আমি নিজে সেভ করব", manualSub: "এই ফোনে কন্টাক্ট যোগ করুন",
+    remoteSave: "রিমোট ক্লাউড সেভ", remoteSub: "সন্তান যেকোনো জায়গা থেকে সেভ করবে",
+    aboutApp: "প্রজেক্টের সম্পর্কে", aboutSub: "লক্ষ্য, সমস্যা ও সমাধান",
+    recentHeading: "রিসেন্ট কল হিস্ট্রি", contactsHeading: "সব নাম্বার",
+    voiceTip: "কণ্ঠস্বর শুনতে ছবিতে বা 🎤 বাটনে চাপুন", formTitle: "নতুন কন্টাক্ট যোগ করুন",
+    modeBadgeLocal: "📱 ম্যানুয়াল মোড — এই ফোনে সেভ হচ্ছে",
+    modeBadgeRemote: "☁️ রিমোট ক্লাউড মোড — সন্তান বাবার জন্য সেভ করছে",
+    cloudPhone: "বাবার ক্লাউড কোড / ফোন নম্বর",
+    selectImg: "ছবি সিলেক্ট করুন", enterName: "সম্পর্ক / নাম", enterPhone: "ফোন নাম্বার",
+    recordInst: "গলার আওয়াজ রেকর্ড (১০ সেকেন্ড অটো-স্টপ)",
+    rerecord: "ভুল হয়েছে? মুছে আবার রেকর্ড করুন", saveBtn: "কন্টাক্ট সেভ করুন",
+    aboutHeading: "প্রজেক্টের সম্পর্কে",
+    alertText: "⚠️ সতর্কতা: বড় ছেলে ৫ মিনিট আগে ফোন করেছিল। ধরা হয়নি!",
+    sosLabel: "জরুরি", noRecent: "কোনো রিসেন্ট কল নেই।", noContacts: "কোনো কন্টাক্ট সেভ নেই।",
+    callNow: "এখনই কল করুন", voiceRecorded: "✅ কণ্ঠস্বর সফলভাবে রেকর্ড হয়েছে!",
+    tapToRecord: "রেকর্ড করতে মাইকে চাপুন", remaining: "বাকি",
+    localSaved: "কন্টাক্ট সফলভাবে এই ফোনে সেভ হয়েছে!", cloudSaved: "বাবার ফোনে ক্লাউডের মাধ্যমে কন্টাক্ট পাঠানো হয়েছে!",
+    emergencyReroute: "🚨 জরুরি! ৩ বার চেষ্টার পরেও উত্তর নেই। ব্যাকআপ নম্বরে কল যাচ্ছে...",
+  },
+  ms: {
+    appTitle: "Shohoj Jogajog", appSubtitle: "Panggilan Mudah untuk Setiap Keluarga",
+    recentCalls: "Panggilan Terkini", recentSub: "Siapa yang menelefon anda",
+    allContacts: "Semua Nombor", contactsSub: "Ketik foto dan terus hubungi",
+    manualSave: "Simpan Sendiri", manualSub: "Tambah kenalan pada telefon ini",
+    remoteSave: "Simpanan Awan Jauh", remoteSub: "Anak simpan dari mana-mana",
+    aboutApp: "Tentang Projek Ini", aboutSub: "Matlamat, masalah & penyelesaian",
+    recentHeading: "Sejarah Panggilan Terkini", contactsHeading: "Semua Nombor",
+    voiceTip: "Ketik imej atau 🎤 untuk dengar suara", formTitle: "Tambah Kenalan Baru",
+    modeBadgeLocal: "📱 Mod Manual — Simpan di telefon ini",
+    modeBadgeRemote: "☁️ Mod Awan Jauh — Anak simpan untuk ibu bapa",
+    cloudPhone: "Kod Awan / Nombor Telefon Ibu Bapa",
+    selectImg: "Pilih Foto", enterName: "Hubungan / Nama", enterPhone: "Nombor Telefon",
+    recordInst: "Rakam Label Suara (henti auto 10 saat)",
+    rerecord: "Silap? Padam & Rakam Semula", saveBtn: "Simpan Kenalan",
+    aboutHeading: "Tentang Projek Ini",
+    alertText: "⚠️ Amaran: Anak menelefon 5 minit lepas. Panggilan terlepas!",
+    sosLabel: "SOS", noRecent: "Tiada panggilan terkini.", noContacts: "Tiada kenalan disimpan.",
+    callNow: "HUBUNGI SEKARANG", voiceRecorded: "✅ Suara berjaya dirakam!",
+    tapToRecord: "Ketik mikrofon untuk rakam", remaining: "Baki",
+    localSaved: "Kenalan disimpan di telefon ini!", cloudSaved: "Kenalan dihantar ke telefon ibu bapa melalui awan!",
+    emergencyReroute: "🚨 Kecemasan! Tiada jawapan selepas 3 cubaan. Menghubungi kenalan sandaran...",
+  },
+  hi: {
+    appTitle: "सहज जोगाजोग", appSubtitle: "हर परिवार के लिए सरल कॉलिंग",
+    recentCalls: "हाल की कॉल", recentSub: "हाल ही में किसने फ़ोन किया",
+    allContacts: "सभी नंबर", contactsSub: "फ़ोटो टैप करें और तुरंत कॉल करें",
+    manualSave: "खुद नंबर सेव करें", manualSub: "इस फ़ोन पर नया कॉन्टैक्ट जोड़ें",
+    remoteSave: "रिमोट क्लाउड सेव", remoteSub: "बच्चे कहीं से भी सेव करें",
+    aboutApp: "इस प्रोजेक्ट के बारे में", aboutSub: "लक्ष्य, समस्याएं और समाधान",
+    recentHeading: "हाल की कॉल का इतिहास", contactsHeading: "सभी नंबर",
+    voiceTip: "आवाज़ सुनने के लिए फ़ोटो या 🎤 टैप करें", formTitle: "नया कॉन्टैक्ट जोड़ें",
+    modeBadgeLocal: "📱 मैनुअल मोड — इस फ़ोन पर सेव हो रहा है",
+    modeBadgeRemote: "☁️ रिमोट क्लाउड मोड — बच्चा माता-पिता के लिए सेव कर रहा है",
+    cloudPhone: "माता-पिता का क्लाउड कोड / फ़ोन नंबर",
+    selectImg: "फ़ोटो चुनें", enterName: "रिश्ता / नाम", enterPhone: "फ़ोन नंबर",
+    recordInst: "आवाज़ टैग रिकॉर्ड करें (10 सेकंड ऑटो-स्टॉप)",
+    rerecord: "गलती हुई? मिटाएं और दोबारा रिकॉर्ड करें", saveBtn: "कॉन्टैक्ट सेव करें",
+    aboutHeading: "इस प्रोजेक्ट के बारे में",
+    alertText: "⚠️ चेतावनी: बेटे का 5 मिनट पहले कॉल आया था। मिस्ड कॉल!",
+    sosLabel: "SOS", noRecent: "अभी तक कोई हाल की कॉल नहीं।", noContacts: "कोई कॉन्टैक्ट सेव नहीं।",
+    callNow: "अभी कॉल करें", voiceRecorded: "✅ आवाज़ सफलतापूर्वक रिकॉर्ड हो गई!",
+    tapToRecord: "रिकॉर्ड करने के लिए माइक टैप करें", remaining: "बचा",
+    localSaved: "कॉन्टैक्ट इस फ़ोन पर सफलतापूर्वक सेव हो गया!", cloudSaved: "क्लाउड के ज़रिए माता-पिता के फ़ोन पर कॉन्टैक्ट भेज दिया गया!",
+    emergencyReroute: "🚨 आपातकाल! 3 बार कोशिश के बाद कोई जवाब नहीं। बैकअप नंबर पर कॉल हो रहा है...",
+  }
+};
 
-        function playVoice(audioData) {
-            if (audioData) { new Audio(audioData).play(); }
-        }
+const defaultContacts = [
+  { name: "Ambulance (Emergency)", phone: "999", img: "https://images.unsplash.com/photo-1587740896339-96a76170508d?w=300&q=80", audio: "", callCount: 0 },
+  { name: "Police (Emergency)", phone: "100", img: "https://images.unsplash.com/photo-1590041794748-2d8eb73a571c?w=300&q=80", audio: "", callCount: 0 },
+  { name: "Elder Son - Rafi", phone: "01711000001", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&q=80", audio: "", callCount: 0 },
+  { name: "Daughter - Mitu", phone: "01711000002", img: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&q=80", audio: "", callCount: 0 },
+];
 
-        function changeContact(dir) {
-            currentIndex += dir;
-            if (currentIndex < 0) currentIndex = contacts.length - 1;
-            if (currentIndex >= contacts.length) currentIndex = 0;
-            renderContactCard();
-        }
+let contacts = [], recents = [];
+let currentIndex = 0, currentSaveMode = "local", currentLang = "en";
+let mediaRecorder = null, audioChunks = [], recordTimer = null;
+let recordedAudioUrl = "", audioStream = null;
 
-        function makeCall(index) {
-            const c = contacts[index];
-            c.callCount = (c.callCount || 0) + 1;
+function initData() {
+  const s = localStorage.getItem('callesy_contacts');
+  contacts = s ? JSON.parse(s) : [...defaultContacts];
+  const r = localStorage.getItem('callesy_recents');
+  recents = r ? JSON.parse(r) : [];
+}
 
-            // Log to Recents History list
-            recents.unshift({ name: c.name, phone: c.phone, img: c.img });
-            localStorage.setItem('recents_history', JSON.stringify(recents));
-            
-            // Auto routing logic simulation
-            if(c.callCount > 3) {
-                alert(`🚨 Emergency Mode: 3 failed attempts to reach ${c.name}. Redirecting automatically to Next-Door Neighbor's phone!`);
-                c.callCount = 0;
-                window.location.href = `tel:01711111111`; // Simulated neighbor number
-            } else {
-                window.location.href = `tel:${c.phone}`;
-            }
-        }
+function saveContacts() { localStorage.setItem('callesy_contacts', JSON.stringify(contacts)); }
+function saveRecents() { localStorage.setItem('callesy_recents', JSON.stringify(recents)); }
 
-        function renderRecents() {
-            const list = document.getElementById('recent-list');
-            list.innerHTML = "";
-            if(recents.length === 0) {
-                list.innerHTML = "<p style='color:#666;'>No history logs found.</p>";
-                return;
-            }
-            recents.forEach(r => {
-                const item = document.createElement('div');
-                item.className = "recent-item";
-                item.innerHTML = `
-                    <img src="${r.img}" class="recent-avatar">
-                    <div style="flex:1; margin-left: 15px;">
-                        <strong>${r.name}</strong><br><small>${r.phone}</small>
-                    </div>
-                    <button class="nav-btn" style="padding:10px 15px; background:var(--success-color);" onclick="window.location.href='tel:${r.phone}'">📞</button>
-                `;
-                list.appendChild(item);
-            });
-        }
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (id === 'contacts-screen') renderContactCard();
+  if (id === 'recent-screen') renderRecents();
+}
 
-        function triggerSOS() {
-            window.location.href = `tel:999`;
-        }
-    </script>
+function getLang() { return langData[currentLang]; }
+
+function changeLanguage() {
+  currentLang = document.getElementById('lang-picker').value;
+  applyLanguage();
+}
+
+function applyLanguage() {
+  const d = getLang();
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('app-title', d.appTitle); set('app-subtitle', d.appSubtitle);
+  set('lbl-recent-calls', d.recentCalls); set('lbl-recent-sub', d.recentSub);
+  set('lbl-all-contacts', d.allContacts); set('lbl-contacts-sub', d.contactsSub);
+  set('lbl-manual-save', d.manualSave); set('lbl-manual-sub', d.manualSub);
+  set('lbl-remote-save', d.remoteSave); set('lbl-remote-sub', d.remoteSub);
+  set('lbl-about', d.aboutApp); set('lbl-about-sub', d.aboutSub);
+  set('lbl-recent-heading', d.recentHeading); set('lbl-contacts-heading', d.contactsHeading);
+  set('lbl-voice-tip', d.voiceTip); set('lbl-form-title', d.formTitle);
+  set('lbl-cloud-phone', d.cloudPhone); set('lbl-select-img', d.selectImg);
+  set('lbl-enter-name', d.enterName); set('lbl-enter-phone', d.enterPhone);
+  set('lbl-record-instruction', d.recordInst); set('lbl-rerecord', d.rerecord);
+  set('lbl-save-btn', d.saveBtn); set('lbl-about-heading', d.aboutHeading);
+  set('alert-text', d.alertText); set('sos-label', d.sosLabel);
+  set('rec-status', recordedAudioUrl ? d.voiceRecorded : d.tapToRecord);
+}
+
+function openSaveScreen(mode) {
+  currentSaveMode = mode;
+  const d = getLang();
+  const badge = document.getElementById('mode-badge');
+  const cloudGroup = document.getElementById('cloud-id-group');
+  const cloudInput = document.getElementById('cloud-father-id');
+  if (mode === 'remote') {
+    badge.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold mb-5 bg-violet-100 text-violet-800 border border-violet-300';
+    badge.textContent = d.modeBadgeRemote;
+    cloudGroup.classList.remove('hidden');
+    cloudInput.required = true;
+  } else {
+    badge.className = 'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold mb-5 bg-green-100 text-green-800 border border-green-300';
+    badge.textContent = d.modeBadgeLocal;
+    cloudGroup.classList.add('hidden');
+    cloudInput.required = false;
+    cloudInput.value = '';
+  }
+  resetRecorder();
+  showScreen('add-screen');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initData();
+  applyLanguage();
+  document.getElementById('contact-image').addEventListener('change', function() {
+    const file = this.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const preview = document.getElementById('img-preview');
+      document.getElementById('img-preview-tag').src = e.target.result;
+      preview.classList.remove('hidden');
+      preview.classList.add('flex');
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+function resetRecorder() {
+  recordedAudioUrl = "";
+  clearInterval(recordTimer);
+  if (mediaRecorder && mediaRecorder.state === "recording") mediaRecorder.stop();
+  if (audioStream) audioStream.getTracks().forEach(t => t.stop());
+  document.getElementById('mic-btn').classList.remove('bg-slate-800');
+  document.getElementById('mic-btn').classList.add('bg-red-600');
+  document.getElementById('mic-pulse-ring').classList.add('hidden');
+  document.getElementById('wave-anim').classList.add('hidden');
+  document.getElementById('wave-anim').classList.remove('flex');
+  document.getElementById('rec-timer').textContent = '';
+  document.getElementById('rec-status').textContent = getLang().tapToRecord;
+  document.getElementById('re-record-btn').classList.add('hidden');
+  document.getElementById('re-record-btn').classList.remove('flex');
+}
+
+async function startRecording() {
+  if (mediaRecorder && mediaRecorder.state === "recording") return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    alert("Microphone not supported on this device."); return;
+  }
+  try {
+    audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(audioStream);
+    audioChunks = [];
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(audioChunks, { type: 'audio/webm' });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        recordedAudioUrl = reader.result;
+        document.getElementById('rec-status').textContent = getLang().voiceRecorded;
+        const rrBtn = document.getElementById('re-record-btn');
+        rrBtn.classList.remove('hidden');
+        rrBtn.classList.add('flex');
+      };
+      reader.readAsDataURL(blob);
+      stopRecordingUI();
+      if (audioStream) audioStream.getTracks().forEach(t => t.stop());
+    };
+    mediaRecorder.start();
+    startRecordingUI();
+    let timeLeft = 10;
+    document.getElementById('rec-timer').textContent = `${timeLeft}s`;
+    clearInterval(recordTimer);
+    recordTimer = setInterval(() => {
+      timeLeft--;
+      document.getElementById('rec-timer').textContent = `${timeLeft}s`;
+      if (timeLeft <= 0) {
+        clearInterval(recordTimer);
+        if (mediaRecorder && mediaRecorder.state === "recording") mediaRecorder.stop();
+      }
+    }, 1000);
+  } catch (err) {
+    alert("Microphone access denied. Please allow microphone permission.");
+  }
+}
+
+function startRecordingUI() {
+  document.getElementById('mic-btn').classList.remove('bg-red-600', 'hover:bg-red-700');
+  document.getElementById('mic-btn').classList.add('bg-slate-800');
+  document.getElementById('mic-pulse-ring').classList.remove('hidden');
+  document.getElementById('wave-anim').classList.remove('hidden');
+  document.getElementById('wave-anim').classList.add('flex');
+  document.getElementById('rec-status').textContent = '🎤 Recording...';
+}
+
+function stopRecordingUI() {
+  document.getElementById('mic-btn').classList.add('bg-red-600', 'hover:bg-red-700');
+  document.getElementById('mic-btn').classList.remove('bg-slate-800');
+  document.getElementById('mic-pulse-ring').classList.add('hidden');
+  document.getElementById('wave-anim').classList.remove('flex');
+  document.getElementById('wave-anim').classList.add('hidden');
+  document.getElementById('rec-timer').textContent = '';
+}
+
+function deleteAndReRecord() {
+  resetRecorder();
+  setTimeout(() => startRecording(), 400);
+}
+
+function saveContact() {
+  const name = document.getElementById('contact-name').value.trim();
+  const phone = document.getElementById('contact-phone').value.trim();
+  const imageFile = document.getElementById('contact-image').files[0];
+  const cloudId = document.getElementById('cloud-father-id').value.trim();
+  const d = getLang();
+  if (!name || !phone || !imageFile) { alert("Please fill in all required fields (photo, name, phone)."); return; }
+  if (currentSaveMode === 'remote' && !cloudId) { alert("Please enter the parent's cloud code or phone number."); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    contacts.push({ name, phone, img: e.target.result, audio: recordedAudioUrl, callCount: 0 });
+    saveContacts();
+    alert(currentSaveMode === 'remote' ? `☁️ ${d.cloudSaved}\n(Target: ${cloudId})` : `📱 ${d.localSaved}`);
+    document.getElementById('contact-name').value = '';
+    document.getElementById('contact-phone').value = '';
+    document.getElementById('contact-image').value = '';
+    document.getElementById('img-preview').classList.add('hidden');
+    document.getElementById('img-preview').classList.remove('flex');
+    resetRecorder();
+    showScreen('dashboard');
+  };
+  reader.readAsDataURL(imageFile);
+}
+
+function renderContactCard() {
+  const container = document.getElementById('contact-card');
+  const dotsEl = document.getElementById('contact-dots');
+  const d = getLang();
+  if (contacts.length === 0) {
+    container.innerHTML = `<p class="text-slate-400 font-semibold py-12">${d.noContacts}</p>`;
+    dotsEl.innerHTML = ''; return;
+  }
+  if (currentIndex >= contacts.length) currentIndex = 0;
+  const c = contacts[currentIndex];
+  const safeAudio = c.audio ? c.audio.replace(/\\/g, '\\\\').replace(/'/g, "\\'") : '';
+  container.innerHTML = `
+    <div class="flex flex-col items-center gap-3 w-full animate-bounce-in">
+      <div class="slider-img-wrap cursor-pointer" onclick="playVoice(${currentIndex})">
+        <img src="${c.img}" alt="${c.name}"
+          class="w-52 h-52 object-cover rounded-3xl avatar-glow border-4 border-white"
+          onerror="this.src='https://placehold.co/208x208?text=Photo'">
+      </div>
+      <button onclick="playVoice(${currentIndex})"
+        class="flex items-center gap-2 px-4 py-2 bg-teal-500 hover:bg-teal-600 active:scale-95 text-white font-display font-bold text-base rounded-full shadow-md shadow-teal-200 transition-all">
+        <i class="fa-solid fa-microphone"></i> Voice Tag
+      </button>
+      <p class="font-display font-extrabold text-2xl text-slate-800 text-center leading-tight mt-1">${c.name}</p>
+      <p class="text-slate-400 font-bold text-lg tracking-widest">${c.phone}</p>
+      <button onclick="makeCall(${currentIndex})"
+        class="btn-shimmer w-full py-4 rounded-2xl text-white font-display font-extrabold text-2xl shadow-lg shadow-green-200 active:scale-95 transition-transform mt-1">
+        <i class="fa-solid fa-phone mr-2"></i> ${d.callNow}
+      </button>
+    </div>`;
+  dotsEl.innerHTML = '';
+  contacts.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = i === currentIndex ? 'w-3 h-3 rounded-full bg-green-500' : 'w-2 h-2 rounded-full bg-slate-300';
+    dotsEl.appendChild(dot);
+  });
+}
+
+function changeContact(dir) {
+  currentIndex = (currentIndex + dir + contacts.length) % contacts.length;
+  renderContactCard();
+}
+
+function playVoice(index) {
+  const c = contacts[index];
+  if (!c) return;
+  if (!c.audio || c.audio.length < 50) {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      const utt = new SpeechSynthesisUtterance(`This is ${c.name}`);
+      speechSynthesis.speak(utt);
+    }
+    return;
+  }
+  try { new Audio(c.audio).play(); } catch(e) {}
+}
+
+function makeCall(index) {
+  const c = contacts[index];
+  const d = getLang();
+  c.callCount = (c.callCount || 0) + 1;
+  saveContacts();
+  recents.unshift({ name: c.name, phone: c.phone, img: c.img, time: new Date().toLocaleTimeString() });
+  if (recents.length > 30) recents.pop();
+  saveRecents();
+  if (c.callCount > 3) {
+    if (confirm(d.emergencyReroute)) {
+      c.callCount = 0;
+      saveContacts();
+      window.location.href = `tel:01711111111`;
+    }
+    return;
+  }
+  window.location.href = `tel:${c.phone}`;
+}
+
+function renderRecents() {
+  const list = document.getElementById('recent-list');
+  const d = getLang();
+  list.innerHTML = '';
+  if (recents.length === 0) {
+    list.innerHTML = `
+      <div class="flex flex-col items-center justify-center py-16 text-slate-400">
+        <i class="fa-solid fa-phone-slash text-5xl mb-4 opacity-30"></i>
+        <p class="font-display font-bold text-lg">${d.noRecent}</p>
+      </div>`; return;
+  }
+  recents.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'flex items-center gap-4 bg-white rounded-2xl border border-slate-100 shadow-sm px-4 py-3 hover:shadow-md transition-shadow';
+    card.innerHTML = `
+      <img src="${r.img}" alt="${r.name}" class="w-16 h-16 rounded-xl object-cover border-2 border-green-200 shrink-0"
+        onerror="this.src='https://placehold.co/64x64?text=?'">
+      <div class="flex-1 text-left min-w-0">
+        <p class="font-display font-bold text-base text-slate-800 truncate">${r.name}</p>
+        <p class="text-slate-400 font-semibold text-sm tracking-wider">${r.phone}</p>
+        ${r.time ? `<p class="text-slate-300 text-xs font-semibold mt-0.5">${r.time}</p>` : ''}
+      </div>
+      <button onclick="window.location.href='tel:${r.phone}'"
+        class="shrink-0 w-12 h-12 rounded-xl bg-green-500 hover:bg-green-600 active:scale-95 text-white text-xl flex items-center justify-center shadow transition-all">
+        <i class="fa-solid fa-phone"></i>
+      </button>`;
+    list.appendChild(card);
+  });
+}
+
+function triggerSOS() {
+  if (confirm("🚨 SOS! This will call Emergency Services (999). Confirm?")) {
+    window.location.href = 'tel:999';
+  }
+}
+</script>
 </body>
-  </html>
+            </html>
